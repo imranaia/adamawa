@@ -28,6 +28,28 @@
       DATA.sources.map(function(s){ return '<a href="' + s.url + '" target="_blank" rel="noopener">' + s.label + '</a>'; }).join('');
   }
 
+  /* ---------------- theme (dark / light) ---------------- */
+  var THEME_KEY = 'adamawa-theme';
+  function applyTheme(theme){
+    document.documentElement.setAttribute('data-theme', theme);
+    document.querySelectorAll('.theme-toggle .lbl, .nav-sheet__theme .lbl').forEach(function(el){
+      el.textContent = theme === 'light' ? 'Dark mode' : 'Light mode';
+    });
+  }
+  function initTheme(){
+    var saved = null;
+    try { saved = localStorage.getItem(THEME_KEY); } catch (e) {}
+    applyTheme(saved === 'light' ? 'light' : 'dark');
+    function toggle(){
+      var next = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+      applyTheme(next);
+      try { localStorage.setItem(THEME_KEY, next); } catch (e) {}
+    }
+    document.querySelectorAll('.theme-toggle, .nav-sheet__theme').forEach(function(btn){
+      btn.addEventListener('click', toggle);
+    });
+  }
+
   /* ---------------- nav / burger ---------------- */
   function initNav(){
     var burger = document.getElementById('burger');
@@ -82,6 +104,11 @@
   }
   window.__adamawaDistanceKm = haversineKm;
 
+  /* ---------------- slug helper (shared by the LGA list + LGA detail page) ---------------- */
+  window.__adamawaSlug = function(s){
+    return (s || '').toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/(^-+|-+$)/g, '');
+  };
+
   /* ---------------- map backdrop (Leaflet, no API key) ---------------- */
   var AdamawaMap = { map: null, marker: null, line: null, interactive: false };
   function initMap(){
@@ -106,6 +133,21 @@
       if (!start) map.setView([9.32, 12.45], 8);
 
       AdamawaMap.map = map;
+
+      // keep the backdrop honestly focused on Adamawa itself: cap how far a
+      // viewer can pan/zoom out so Lagos, Abuja or deep into Cameroon never
+      // fill the frame, and trace + dim everything outside the state outline.
+      map.setMinZoom(7);
+      map.setMaxBounds([[6.75, 10.35],[11.65, 14.75]]);
+      if (DATA.adamawaBoundary && DATA.adamawaBoundary.length > 2){
+        var world = [[-85,-180],[-85,180],[85,180],[85,-180]];
+        L.polygon([world, DATA.adamawaBoundary], {
+          stroke:false, fillColor:'#050a06', fillOpacity:0.5, className:'map-outline', interactive:false
+        }).addTo(map);
+        L.polygon(DATA.adamawaBoundary, {
+          fill:false, color:'#8fe8a8', weight:1.4, opacity:0.6, className:'map-outline', interactive:false
+        }).addTo(map);
+      }
 
       var toggle = document.getElementById('map-toggle');
       if (toggle){
@@ -132,14 +174,21 @@
   function clearDistanceLine(){
     if (AdamawaMap.line){ AdamawaMap.map.removeLayer(AdamawaMap.line); AdamawaMap.line = null; }
   }
-  function flyTo(lat, lng, zoom, label, showDistance){
+  function flyTo(lat, lng, zoom, label, showDistance, isCapital){
     if (!AdamawaMap.map) return;
     var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     AdamawaMap.map.flyTo([lat, lng], zoom || 10, { animate: !reduceMotion, duration: 1.6 });
     if (AdamawaMap.marker) AdamawaMap.map.removeLayer(AdamawaMap.marker);
     clearDistanceLine();
     if (typeof L !== 'undefined'){
-      var icon = L.divIcon({ className: 'map-pin', html: '<span></span>', iconSize: [14,14] });
+      var pinHtml =
+        '<div class="map-pin3d__wrap"><div class="map-pin3d__stem"></div>' +
+        '<div class="map-pin3d__knob"><div class="map-pin3d__ring"></div><div class="map-pin3d__ring map-pin3d__ring--b"></div></div></div>' +
+        '<div class="map-pin3d__shadow"></div>';
+      var icon = L.divIcon({
+        className: 'map-pin3d' + (isCapital ? ' map-pin3d--capital' : ''),
+        html: pinHtml, iconSize: [26, 38], iconAnchor: [13, 33]
+      });
       AdamawaMap.marker = L.marker([lat, lng], { icon: icon, keyboard:false }).addTo(AdamawaMap.map);
 
       // draw the straight-line (great-circle) path back to Yola so the
@@ -329,6 +378,7 @@
   document.addEventListener('DOMContentLoaded', function(){
     applyFacts();
     renderSources();
+    initTheme();
     initNav();
     initMap();
     initReveals();

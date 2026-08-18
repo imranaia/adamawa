@@ -14,7 +14,15 @@ window.__ADAMAWA_DATA__ = (function(){
   /* Yola town / Yola South — used as the fixed reference point for
      every "distance from the capital" figure on the site. */
   DATA.yola = { lat: 9.183, lng: 12.467 };
-  DATA.mapView = { bounds: [[7.85, 11.45],[10.95, 13.80]] };
+  DATA.mapView = { bounds: [[7.35, 11.30],[11.02, 13.82]] };
+
+  /* Simplified outline of Adamawa State's administrative boundary — used to
+     dim everything outside the state (Cameroon, Borno, Gombe, Taraba) on the
+     map backdrop, and to cap how far a viewer can pan/zoom out.
+     Simplified (Ramer–Douglas–Peucker, epsilon 0.018) from geoBoundaries.org's
+     open Nigeria ADM1 dataset (CC BY 4.0-equivalent open license). */
+  DATA.adamawaBoundary = [[10.0339,11.8358],[9.8407,11.8012],[9.7935,11.8545],[9.7409,11.8172],[9.6275,11.6345],[9.6563,11.6136],[9.6051,11.563],[9.5985,11.468],[9.5496,11.4296],[9.4885,11.4438],[9.4078,11.5259],[9.3261,11.5307],[9.3054,11.6477],[9.2295,11.6874],[9.0745,11.7068],[9.0084,11.8311],[8.9471,11.8715],[8.7391,11.8271],[8.6776,11.7431],[8.6412,11.7889],[8.6172,11.7576],[8.5462,11.7945],[8.4709,11.7302],[8.4037,11.6129],[8.3866,11.6298],[8.2459,11.5463],[8.0187,11.3415],[7.7998,11.4898],[7.9033,11.5516],[7.908,11.5904],[7.8658,11.6464],[7.7504,11.633],[7.7248,11.758],[7.4879,11.7719],[7.3912,11.8527],[7.5778,12.0436],[7.715,12.0331],[7.9945,12.2211],[8.1068,12.2015],[8.1978,12.2556],[8.3267,12.2372],[8.4194,12.2633],[8.4648,12.586],[8.4934,12.6026],[8.4672,12.6812],[8.5719,12.7549],[8.5648,12.8263],[8.6504,12.8168],[8.7504,12.8787],[8.9712,12.8443],[8.9931,12.9252],[9.0635,12.9423],[9.3481,12.8978],[9.4961,13.0239],[9.5267,13.1867],[9.5789,13.2392],[9.7517,13.2597],[9.9077,13.2355],[9.9711,13.2864],[10.0376,13.2451],[10.0997,13.318],[10.1197,13.4103],[10.1719,13.4622],[10.2175,13.4636],[10.2145,13.5077],[10.3898,13.4922],[10.3938,13.5188],[10.6436,13.5608],[10.9141,13.7507],[10.9495,13.5854],[10.8784,13.3831],[10.9306,13.3457],[10.7373,13.3194],[10.5889,13.2325],[10.5079,13.248],[10.4089,13.1971],[10.4644,13.052],[10.5481,12.9586],[10.5795,12.7446],[10.439,12.6525],[10.4921,12.5788],[10.3951,12.5574],[10.3714,12.4216],[10.3505,12.3792],[10.3171,12.3869],[10.3151,12.3128],[10.3598,12.2572],[10.2808,12.2127],[10.2367,12.136],[10.1425,12.089],[10.0605,12.0868],[10.0669,12.0188],[10.0353,11.9912],[10.0247,11.9207],[10.0339,11.8358]];
+  DATA.adamawaBoundarySource = 'geoBoundaries.org — Nigeria ADM1 (open license), simplified';
 
   DATA.facts = {
     'population':      { v: '≈4.9 million (2022 est.)', src: 'citypopulation.de, 2022 projection — no Nigerian census since 2006' },
@@ -233,7 +241,8 @@ window.__ADAMAWA_DATA__ = (function(){
     { label: 'citypopulation.de — Adamawa', url: 'https://www.citypopulation.de/en/nigeria/admin/NGA002__adamawa/' },
     { label: 'Nigeria Geological Survey Agency', url: 'https://ngsa.gov.ng/wp-content/uploads/2024/08/Adamawa-State-Mineral-Resources-Map-2021.pdf' },
     { label: 'Wikimedia Commons — governor portraits', url: 'https://commons.wikimedia.org/' },
-    { label: 'OpenStreetMap contributors', url: 'https://www.openstreetmap.org/copyright' }
+    { label: 'OpenStreetMap contributors', url: 'https://www.openstreetmap.org/copyright' },
+    { label: 'geoBoundaries.org — Nigeria state boundaries', url: 'https://www.geoboundaries.org/' }
   ];
 
   return DATA;
