@@ -1,0 +1,66 @@
+<style>
+  /* ---------- leadership ---------- */
+  .leadership{ padding-block: clamp(5rem,12vh,8rem); }
+  .lead-grid{ display:grid; grid-template-columns: 0.9fr 1.1fr; gap: 4rem; align-items:start; }
+  @media (max-width:900px){ .lead-grid{ grid-template-columns:1fr; gap:2.5rem; } }
+
+  .lead-card{ position:sticky; top:6.5rem; }
+  .lead-card__badge{ width:64px; height:64px; border-radius:50%; background:linear-gradient(150deg,var(--terracotta),var(--gold)); display:flex; align-items:center; justify-content:center; font-family:var(--font-display); font-weight:700; font-size:1.4rem; color:var(--bg-deep); }
+  .lead-card__name{ font-family:var(--font-display); font-weight:600; font-size:clamp(1.9rem,3vw,2.6rem); margin-top:1.4rem; color:var(--text); letter-spacing:-0.01em; }
+  .lead-card__title{ font-family:var(--font-mono); font-size:.8rem; color:var(--gold-lt); text-transform:uppercase; letter-spacing:.08em; margin-top:.5rem; }
+  .lead-card__bio{ margin-top:1.4rem; font-size:.98rem; line-height:1.7; color:var(--text-dim); max-width:34rem; }
+  .lead-card__source{ margin-top:1.5rem; font-family:var(--font-mono); font-size:.72rem; color:var(--text-faint); }
+
+  .achv-list{ display:flex; flex-direction:column; }
+  .achv{
+    padding-block:1.9rem; border-top:1px solid var(--border); display:grid; grid-template-columns: 3rem 1fr; gap:1.5rem;
+    opacity:0; transform:translateY(24px); transition:opacity .7s var(--ease-out), transform .7s var(--ease-out);
+  }
+  .achv.is-visible{ opacity:1; transform:translateY(0); }
+  .achv:last-child{ border-bottom:1px solid var(--border); }
+  .achv__icon{ width:2.5rem; height:2.5rem; border-radius:10px; background:var(--surface-2); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; color:var(--gold-lt); }
+  .achv__icon svg{ width:18px; height:18px; }
+  .achv h4{ font-family:var(--font-display); font-weight:600; font-size:1.15rem; color:var(--text); }
+  .achv p{ font-size:.92rem; line-height:1.65; color:var(--text-dim); margin-top:.5rem; max-width:44ch; }
+  .achv__src{ display:inline-block; margin-top:.6rem; font-family:var(--font-mono); font-size:.68rem; color:var(--text-faint); text-decoration:none; border-bottom:1px dotted var(--text-faint); }
+  .achv__src:hover{ color:var(--gold-lt); border-color:var(--gold-lt); }
+
+  /* ---------- culture / landmarks ---------- */
+  .culture{ padding-block: clamp(5rem,12vh,8rem); }
+  .culture__head{ margin-bottom:2.5rem; }
+  .landmark-scroll{ display:flex; gap:1.25rem; overflow-x:auto; scroll-snap-type:x mandatory; padding-bottom:1rem; margin: 0 calc(var(--gutter) * -1); padding-inline: var(--gutter); }
+  .landmark{
+    scroll-snap-align:start; flex:0 0 min(78vw, 380px); border-radius:22px; overflow:hidden; position:relative;
+    height: 460px; border:1px solid var(--border);
+  }
+  .landmark canvas{ position:absolute; inset:0; width:100%; height:100%; }
+  .landmark__label{ position:absolute; left:0; right:0; bottom:0; padding:1.6rem; background:linear-gradient(0deg, rgba(11,12,9,.92), transparent); }
+  .landmark__label .label{ color:var(--gold-lt); margin-bottom:.4rem; }
+  .landmark__label h4{ font-family:var(--font-display); font-weight:600; font-size:1.25rem; color:var(--text); }
+  .landmark__label p{ font-size:.82rem; color:var(--text-dim); margin-top:.4rem; line-height:1.5; }
+</style>
+
+<section class="leadership section-pad wide" id="leadership">
+  <p class="label" style="margin-bottom:.9rem;">04 &mdash; Leadership</p>
+  <div class="lead-grid">
+    <div class="lead-card">
+      <div class="lead-card__badge">AF</div>
+      <h2 class="lead-card__name">Ahmadu Umaru<br>Fintiri</h2>
+      <p class="lead-card__title">Executive Governor, Adamawa State</p>
+      <p class="lead-card__bio" data-fact="governor-bio">—</p>
+      <p class="lead-card__source" data-fact="governor-source">—</p>
+    </div>
+    <div>
+      <h3 class="d-m" style="margin-bottom:.5rem;">In office</h3>
+      <div class="achv-list" id="achv-list"><!-- ACHIEVEMENT_CARDS_PLACEHOLDER --></div>
+    </div>
+  </div>
+</section>
+
+<section class="culture section-pad" id="culture">
+  <div class="wide culture__head">
+    <p class="label" style="margin-bottom:.9rem;">05 &mdash; Landmarks &amp; culture</p>
+    <h2 class="d-l">Land worth seeing.</h2>
+  </div>
+  <div class="landmark-scroll" id="landmark-scroll"><!-- LANDMARK_CARDS_PLACEHOLDER --></div>
+</section>
