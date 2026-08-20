@@ -13,7 +13,15 @@
    authenticates automatically via OIDC, no API key to manage.
    ============================================================ */
 
-const { streamText, toTextStream, pipeTextStreamToResponse } = require('ai');
+// 'ai' ships as an ESM package; Vercel's function bundler can't require()
+// it directly (ERR_REQUIRE_ESM), so it's loaded via dynamic import and
+// cached on the module for reuse across warm invocations of this function.
+let aiModulePromise = null;
+function loadAi() {
+  if (!aiModulePromise) aiModulePromise = import('ai');
+  return aiModulePromise;
+}
+
 const DATA = require('../assets/data.js');
 
 const MODEL = 'anthropic/claude-sonnet-5';
@@ -131,7 +139,8 @@ module.exports = async (req, res) => {
   }
 
   try {
-    var result = streamText({
+    var ai = await loadAi();
+    var result = ai.streamText({
       model: MODEL,
       system: SYSTEM_PROMPT,
       messages: messages,
@@ -141,7 +150,7 @@ module.exports = async (req, res) => {
     });
 
     res.setHeader('Cache-Control', 'no-store');
-    await pipeTextStreamToResponse({ response: res, stream: toTextStream({ stream: result.stream }) });
+    await ai.pipeTextStreamToResponse({ response: res, stream: ai.toTextStream({ stream: result.stream }) });
   } catch (err) {
     console.error('/api/ask fatal error:', err);
     if (!res.headersSent) {
