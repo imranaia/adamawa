@@ -8,7 +8,12 @@
    landmark/LGA coordinates), the relevant field says so rather
    than guessing.
    ============================================================ */
-window.__ADAMAWA_DATA__ = (function(){
+/* Dual browser/Node module: the same file backs window.__ADAMAWA_DATA__ in
+   every page AND is require()'d directly by the /api/ask serverless function
+   (as the single source of truth for what it tells the AI model), so the
+   chat assistant is grounded in exactly the facts published on the site —
+   never a second, driftable copy. */
+(function(root){
   var DATA = {};
 
   /* Yola town / Yola South — used as the fixed reference point for
@@ -245,5 +250,7 @@ window.__ADAMAWA_DATA__ = (function(){
     { label: 'geoBoundaries.org — Nigeria state boundaries', url: 'https://www.geoboundaries.org/' }
   ];
 
+  if (typeof module !== 'undefined' && module.exports) { module.exports = DATA; }
+  if (root) { root.__ADAMAWA_DATA__ = DATA; }
   return DATA;
-})();
+})(typeof window !== 'undefined' ? window : null);

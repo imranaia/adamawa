@@ -1,0 +1,10 @@
+{
+  "name": "adamawa-state-site",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Adamawa State demo site (static pages + Vercel serverless functions under /api).",
+  "type": "commonjs",
+  "dependencies": {
+    "ai": "^7.0.71"
+  }
+}
