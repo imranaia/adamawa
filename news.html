@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<script>(function(){try{if(localStorage.getItem('adamawa-theme')==='light')document.documentElement.setAttribute('data-theme','light');}catch(e){}})();</script>
+<title>Adamawa State — News</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="description" content="Live news coverage of Adamawa State, Nigeria, pulled from Google News." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
+<link rel="stylesheet" href="assets/base.css" />
+<style>
+  .page-hero{ padding-top: clamp(9rem, 20vh, 12rem); padding-bottom: clamp(2rem,5vh,3rem); }
+  .page-hero .body-l{ margin-top:1.25rem; }
+
+  .news-meta{
+    display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:1rem;
+    margin-top:2rem; padding-top:1.5rem; border-top:1px solid var(--border);
+    font-family:var(--font-mono); font-size:.78rem; color:var(--text-faint);
+  }
+  .news-meta .dot-live{ display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--green-lt); margin-right:.5rem; box-shadow:0 0 8px 1px var(--green-lt); }
+  .news-refresh{
+    font-family:var(--font-mono); font-size:.76rem; color:var(--text-dim); background:transparent; border:1px solid var(--border-strong);
+    border-radius:999px; padding:.5rem 1.05rem; cursor:pointer; display:inline-flex; align-items:center; gap:.5rem; transition:all .25s var(--ease-out);
+  }
+  .news-refresh:hover{ color:var(--text); border-color:var(--green-lt); }
+  .news-refresh svg{ width:13px; height:13px; transition:transform .5s var(--ease-spring); }
+  .news-refresh.is-loading svg{ animation:spin 1s linear infinite; }
+  @keyframes spin{ to{ transform:rotate(360deg); } }
+
+  .news-body{ padding-block: clamp(2rem,5vh,3rem) clamp(6rem,12vh,8rem); }
+  .news-list{ display:flex; flex-direction:column; }
+  .news-item{
+    display:grid; grid-template-columns: 1fr auto; align-items:center; gap:1.5rem; padding-block:1.6rem; border-top:1px solid var(--border);
+    text-decoration:none; color:inherit; opacity:0; transform:translateY(18px); transition:opacity .55s var(--ease-out), transform .55s var(--ease-out), background .25s var(--ease-out);
+  }
+  .news-item.is-visible{ opacity:1; transform:translateY(0); }
+  .news-list .news-item:last-child{ border-bottom:1px solid var(--border); }
+  .news-item:hover{ background:var(--surface-2); }
+  .news-item__top{ display:flex; flex-wrap:wrap; align-items:center; gap:.4rem .6rem; font-family:var(--font-mono); font-size:.7rem; letter-spacing:.05em; text-transform:uppercase; color:var(--green-lt); margin-bottom:.55rem; }
+  .news-item__top .sep{ color:var(--text-faint); }
+  .news-item__top .when{ color:var(--text-faint); text-transform:none; letter-spacing:0; }
+  .news-item__title{ font-family:var(--font-display); font-weight:600; font-size:1.08rem; line-height:1.4; color:var(--text); max-width:64ch; }
+  .news-item__go{ width:34px; height:34px; border-radius:50%; border:1px solid var(--border-strong); display:flex; align-items:center; justify-content:center; color:var(--text-faint); flex-shrink:0; transition:all .25s var(--ease-out); }
+  .news-item__go svg{ width:14px; height:14px; }
+  .news-item:hover .news-item__go{ color:var(--ink); background:var(--green-lt); border-color:var(--green-lt); transform:rotate(45deg); }
+  @media (max-width:560px){ .news-item__title{ font-size:1rem; } .news-item__go{ width:28px; height:28px; } .news-item__go svg{ width:12px; height:12px; } }
+
+  .news-skel{ display:flex; flex-direction:column; }
+  .news-skel__row{ padding-block:1.6rem; border-top:1px solid var(--border); }
+  .news-skel__row:first-child{ border-top:none; }
+  .news-skel__bar{ height:.7rem; border-radius:4px; background:var(--surface-2); animation:pulse 1.5s ease-in-out infinite; }
+  .news-skel__bar.w1{ width:30%; margin-bottom:.9rem; }
+  .news-skel__bar.w2{ width:78%; height:1.1rem; }
+  @keyframes pulse{ 0%,100%{ opacity:.5; } 50%{ opacity:1; } }
+
+  .news-empty{ padding-block:3rem; text-align:left; max-width:44ch; }
+  .news-empty p{ font-size:.95rem; line-height:1.7; color:var(--text-dim); }
+  .news-empty a{ color:var(--green-lt); text-decoration:none; border-bottom:1px dotted var(--green-lt); }
+  .news-source-note{ margin-top:2.5rem; font-size:.78rem; color:var(--text-faint); line-height:1.6; max-width:56ch; }
+</style>
+</head>
+<body>
+
+<div id="map-bg-wrap"><div id="map-bg"></div><div id="map-bg-scrim"></div></div>
+<button class="map-toggle" id="map-toggle" aria-label="Toggle live map"><span class="dot"></span><span class="lbl">Map: view</span></button>
+
+<nav class="nav" id="nav">
+  <a class="nav__mark" href="index.html">
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 18 9 6l4 8 3-5 5 9" stroke="var(--green-lt)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></svg>
+    Adamawa
+  </a>
+  <div class="nav__links">
+    <a href="index.html">Overview</a>
+    <a href="history.html">History</a>
+    <a href="governance.html">Governance</a>
+    <a href="local-government.html">Local Government</a>
+    <a href="news.html" class="is-current">News</a>
+  </div>
+  <button class="nav__ask" id="open-chat-nav">Ask Adamawa</button>
+  <button class="theme-toggle" id="theme-toggle" aria-label="Toggle light or dark theme" title="Toggle light / dark theme">
+    <svg class="i-moon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+    <svg class="i-sun" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="4.2" stroke="currentColor" stroke-width="1.6"/><path d="M12 2.5v2.4M12 19.1v2.4M4.2 4.2l1.7 1.7M18.1 18.1l1.7 1.7M2.5 12h2.4M19.1 12h2.4M4.2 19.8l1.7-1.7M18.1 5.9l1.7-1.7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+  </button>
+  <button class="nav__burger" id="burger" aria-label="Open menu" aria-expanded="false">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M1 4h14M1 8h14M1 12h14" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+  </button>
+</nav>
+
+<div class="nav-sheet" id="nav-sheet">
+  <a href="index.html">Overview</a>
+  <a href="history.html">History</a>
+  <a href="governance.html">Governance</a>
+  <a href="local-government.html">Local Government</a>
+  <a href="news.html">News</a>
+  <a href="#ask">Ask Adamawa</a>
+  <button class="nav-sheet__theme" id="theme-toggle-sheet">
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="4.2" stroke="currentColor" stroke-width="1.6"/><path d="M12 2.5v2.4M12 19.1v2.4M4.2 4.2l1.7 1.7M18.1 18.1l1.7 1.7M2.5 12h2.4M19.1 12h2.4M4.2 19.8l1.7-1.7M18.1 5.9l1.7-1.7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+    <span class="lbl">Light mode</span>
+  </button>
+</div>
+
+<main>
+<section class="page-hero wide">
+  <p class="label">Live from Google News</p>
+  <h1 class="d-xl">News.</h1>
+  <p class="body-l">Recent coverage of Adamawa State, pulled from Google News. Every headline links straight to the original publisher — nothing here is written or summarized by this site.</p>
+  <div class="news-meta">
+    <span id="news-updated"><span class="dot-live"></span>Loading live headlines…</span>
+    <button class="news-refresh" id="news-refresh">
+      <svg viewBox="0 0 20 20" fill="none"><path d="M16 4v4h-4M4 16v-4h4M4.6 8a6 6 0 0 1 10.2-2.9M15.4 12a6 6 0 0 1-10.2 2.9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Refresh
+    </button>
+  </div>
+</section>
+
+<section class="news-body wide">
+  <div class="news-skel" id="news-skel">
+    <div class="news-skel__row"><div class="news-skel__bar w1"></div><div class="news-skel__bar w2"></div></div>
+    <div class="news-skel__row"><div class="news-skel__bar w1"></div><div class="news-skel__bar w2"></div></div>
+    <div class="news-skel__row"><div class="news-skel__bar w1"></div><div class="news-skel__bar w2"></div></div>
+    <div class="news-skel__row"><div class="news-skel__bar w1"></div><div class="news-skel__bar w2"></div></div>
+    <div class="news-skel__row"><div class="news-skel__bar w1"></div><div class="news-skel__bar w2"></div></div>
+  </div>
+  <div class="news-list" id="news-list" style="display:none;"></div>
+  <div class="news-empty" id="news-empty" style="display:none;"></div>
+  <p class="news-source-note">Headlines are fetched live from Google News' public search feed for "Adamawa State Nigeria" and cached for up to 30 minutes. This site doesn't edit, summarize or verify individual articles — read them at the source before relying on them.</p>
+</section>
+
+<section class="ask section-pad wide" id="ask">
+  <p class="label" style="margin-bottom:.9rem;">Ask</p>
+  <h2 class="d-l" style="margin-bottom:2.5rem;">Ask Adamawa anything.</h2>
+  <div class="ask-shell card-surface" id="ask-shell">
+    <div class="ask-intro">
+      <h3 class="d-m">A guide to the whole state.</h3>
+      <p class="body">Every figure on this site — the history, the local governments, the minerals, the governor's record — is searchable here. Ask a question in plain language.</p>
+      <div class="ask-suggest" id="ask-suggest">
+        <button data-q="What has Governor Fintiri done in office?">What has Governor Fintiri done in office?</button>
+        <button data-q="When was Adamawa State created?">When was Adamawa State created?</button>
+        <button data-q="What LGAs are in Adamawa North?">What LGAs are in Adamawa North?</button>
+        <button data-q="What minerals does Adamawa have?">What minerals does Adamawa have?</button>
+      </div>
+    </div>
+    <div class="ask-panel">
+      <div class="ask-log" id="ask-log"></div>
+      <form class="ask-form" id="ask-form">
+        <input id="ask-input" type="text" placeholder="Ask about Adamawa's history, LGAs, resources…" autocomplete="off" />
+        <button type="submit" aria-label="Send">
+          <svg width="17" height="17" viewBox="0 0 20 20" fill="none"><path d="M3 10h13M10 4l6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </form>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="footer-grid">
+    <p class="footer-note">Built as a concept demonstration of Adamawa State's digital presence. News headlines are pulled live from Google News and are not written, edited or fact-checked by this site — verify with the original publisher. Historical, demographic and biographical figures elsewhere on this site are drawn from public sources cited below.</p>
+    <div class="footer-sources" id="footer-sources"><!-- SOURCES_PLACEHOLDER --></div>
+  </div>
+</footer>
+
+<button class="launcher" id="launcher" aria-label="Open Ask Adamawa">
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M4 5h16v11H8l-4 4V5Z" stroke="var(--ink)" stroke-width="1.8" stroke-linejoin="round"/></svg>
+</button>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+<script src="assets/data.js"></script>
+<script>
+  if (window.__ADAMAWA_DATA__ && window.__ADAMAWA_DATA__.yola){
+    window.__ADAMAWA_DATA__.mapView = { center: window.__ADAMAWA_DATA__.yola, zoom: 9 };
+  }
+</script>
+<script src="assets/base.js"></script>
+<script>
+  function relTime(iso){
+    if (!iso) return '';
+    var diffSec = (Date.now() - new Date(iso).getTime()) / 1000;
+    var rtf = (typeof Intl !== 'undefined' && Intl.RelativeTimeFormat) ? new Intl.RelativeTimeFormat('en', { numeric: 'auto' }) : null;
+    var mins = Math.round(diffSec / 60);
+    if (Math.abs(mins) < 60) return rtf ? rtf.format(-mins, 'minute') : (mins <= 1 ? 'just now' : mins + ' min ago');
+    var hours = Math.round(diffSec / 3600);
+    if (Math.abs(hours) < 24) return rtf ? rtf.format(-hours, 'hour') : hours + ' hr ago';
+    var days = Math.round(diffSec / 86400);
+    if (Math.abs(days) < 30) return rtf ? rtf.format(-days, 'day') : days + ' d ago';
+    var months = Math.round(diffSec / 2592000);
+    return rtf ? rtf.format(-months, 'month') : months + ' mo ago';
+  }
+  function escapeHtml(s){ var d = document.createElement('div'); d.textContent = s || ''; return d.innerHTML; }
+
+  function renderNews(data){
+    var skel = document.getElementById('news-skel');
+    var listHost = document.getElementById('news-list');
+    var emptyHost = document.getElementById('news-empty');
+    var updatedEl = document.getElementById('news-updated');
+    skel.style.display = 'none';
+
+    if (!data || !data.ok || !data.items || !data.items.length){
+      listHost.style.display = 'none';
+      emptyHost.style.display = 'block';
+      emptyHost.innerHTML = '<p>Live headlines aren’t available right now' + (data && data.error ? ' (' + escapeHtml(data.error) + ')' : '') + '. Try refreshing in a moment, or <a href="https://news.google.com/search?q=Adamawa%20State%20Nigeria" target="_blank" rel="noopener">search Google News for Adamawa State directly</a>.</p>';
+      updatedEl.innerHTML = '<span class="dot-live" style="background:var(--text-faint); box-shadow:none;"></span>Couldn’t load live headlines';
+      return;
+    }
+
+    emptyHost.style.display = 'none';
+    listHost.style.display = '';
+    listHost.innerHTML = data.items.map(function(it){
+      var when = relTime(it.publishedAt);
+      return '<a class="news-item reveal" href="' + it.link + '" target="_blank" rel="noopener noreferrer">' +
+        '<div><div class="news-item__top">' + (it.source ? '<span>' + escapeHtml(it.source) + '</span>' : '<span>Source</span>') +
+          (when ? '<span class="sep">&middot;</span><span class="when">' + when + '</span>' : '') + '</div>' +
+        '<div class="news-item__title">' + escapeHtml(it.title) + '</div></div>' +
+        '<div class="news-item__go"><svg viewBox="0 0 20 20" fill="none"><path d="M5 15 15 5M7 5h8v8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></a>';
+    }).join('');
+
+    updatedEl.innerHTML = '<span class="dot-live"></span>' + data.count + ' headline' + (data.count === 1 ? '' : 's') + ' &middot; updated ' + relTime(data.fetchedAt);
+    window.__reobserveReveals();
+  }
+
+  function loadNews(){
+    var btn = document.getElementById('news-refresh');
+    btn.classList.add('is-loading');
+    fetch('/api/news', { cache: 'no-store' })
+      .then(function(r){ return r.json().catch(function(){ return { ok:false, error:'Bad response from the news service' }; }); })
+      .then(function(data){ renderNews(data); })
+      .catch(function(){ renderNews({ ok:false, error:'Network error' }); })
+      .finally(function(){ btn.classList.remove('is-loading'); });
+  }
+
+  window.__adamawaPageInit = function(){
+    loadNews();
+    document.getElementById('news-refresh').addEventListener('click', loadNews);
+  };
+</script>
+</body>
+</html>

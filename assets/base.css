@@ -244,6 +244,10 @@ hr.rule{ border:none; border-top:1px solid var(--border); margin:0; }
 .nav__links a:hover, .nav__links a:focus-visible, .nav__links a.is-current{ color:var(--text); background:var(--surface-2); }
 .nav__ask{ font-size:.8rem; font-weight:600; color:var(--ink); background:var(--green-lt); padding:.55rem 1.05rem; border-radius:999px; border:none; cursor:pointer; white-space:nowrap; transition: transform .35s var(--ease-spring), box-shadow .3s var(--ease-out); }
 .nav__ask:hover{ transform:translateY(-1px) scale(1.03); box-shadow:0 8px 22px -8px rgba(116,212,146,.45); }
+/* on narrow phones the floating chat launcher already covers this — drop
+   the pill from the nav bar so the logo, theme toggle and burger never
+   crowd or clip against each other */
+@media (max-width:600px){ .nav__ask{ display:none; } }
 
 .theme-toggle{
   width:36px; height:36px; border-radius:999px; border:1px solid var(--border-strong); background:transparent;

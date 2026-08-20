@@ -21,6 +21,7 @@
   @media (max-width:900px){ .lead-grid{ grid-template-columns:1fr; gap:2.5rem; } }
 
   .lead-card{ position:sticky; top:6.5rem; }
+  @media (max-width:900px){ .lead-card{ position:static; } }
   .lead-card__badge{ width:min(220px,42vw); height:min(220px,42vw); border-radius:50%; background:linear-gradient(150deg,var(--green),var(--green-lt)); display:flex; align-items:center; justify-content:center; font-family:var(--font-display); font-weight:700; font-size:3.4rem; color:var(--ink); overflow:hidden; box-shadow:0 18px 44px -18px rgba(0,0,0,.55), 0 0 0 6px color-mix(in srgb, var(--green-lt) 18%, transparent); }
   .lead-card__badge img{ width:100%; height:100%; object-fit:cover; }
   .lead-card__name{ font-family:var(--font-display); font-weight:600; font-size:clamp(1.9rem,3vw,2.6rem); margin-top:1.4rem; color:var(--text); letter-spacing:-0.01em; }
@@ -57,8 +58,16 @@
   .gov-row__term{ font-family:var(--font-mono); font-size:.76rem; color:var(--green-lt); margin-top:.3rem; }
   .gov-row__note{ font-size:.88rem; line-height:1.6; color:var(--text-dim); margin-top:.5rem; max-width:60ch; }
   .gov-row__nophoto{ display:block; margin-top:.4rem; font-family:var(--font-mono); font-size:.62rem; color:var(--text-faint); }
-  @media (max-width:700px){ .gov-row{ grid-template-columns: 3.5rem 5rem 1fr; } .gov-row__n{ display:none; } }
-  @media (max-width:520px){ .gov-row{ grid-template-columns: 4rem 1fr; } .gov-row__n{ display:none; } }
+  @media (max-width:700px){
+    .gov-row{ grid-template-columns: 4.5rem 1fr; gap:1.1rem; padding-block:1.4rem; }
+    .gov-row__n{ display:none; }
+    .gov-row__photo{ width:64px; height:64px; font-size:1.1rem; }
+  }
+  @media (max-width:480px){
+    .gov-row{ grid-template-columns: 3.75rem 1fr; gap:.9rem; }
+    .gov-row__photo{ width:54px; height:54px; font-size:.95rem; }
+    .gov-row__name{ font-size:1.02rem; }
+  }
 </style>
 </head>
 <body>
@@ -76,6 +85,7 @@
     <a href="history.html">History</a>
     <a href="governance.html" class="is-current">Governance</a>
     <a href="local-government.html">Local Government</a>
+    <a href="news.html">News</a>
   </div>
   <button class="nav__ask" id="open-chat-nav">Ask Adamawa</button>
   <button class="theme-toggle" id="theme-toggle" aria-label="Toggle light or dark theme" title="Toggle light / dark theme">
@@ -92,6 +102,7 @@
   <a href="history.html">History</a>
   <a href="governance.html">Governance</a>
   <a href="local-government.html">Local Government</a>
+  <a href="news.html">News</a>
   <a href="#ask">Ask Adamawa</a>
   <button class="nav-sheet__theme" id="theme-toggle-sheet">
     <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="4.2" stroke="currentColor" stroke-width="1.6"/><path d="M12 2.5v2.4M12 19.1v2.4M4.2 4.2l1.7 1.7M18.1 18.1l1.7 1.7M2.5 12h2.4M19.1 12h2.4M4.2 19.8l1.7-1.7M18.1 5.9l1.7-1.7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
