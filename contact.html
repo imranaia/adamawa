@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8" />
 <script>(function(){try{if(localStorage.getItem('adamawa-theme')==='light')document.documentElement.setAttribute('data-theme','light');}catch(e){}})();</script>
-<title>Adamawa State — History</title>
+<title>Adamawa State — Contact</title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta name="description" content="From Modibbo Adama's flag out of Sokoto in 1809 to the creation of Adamawa State in 1991 — the full history of Fombina." />
+<meta name="description" content="How to reach the Adamawa State Government — address, phone, email and the official contact page." />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -13,22 +13,14 @@
 <link rel="stylesheet" href="assets/base.css" />
 <style>
   .page-hero{ padding-top: clamp(9rem, 20vh, 12rem); padding-bottom: clamp(3rem,7vh,5rem); }
-  .page-hero .label{ margin-bottom:1rem; }
   .page-hero .body-l{ margin-top:1.25rem; }
-
-  .history{ padding-block: clamp(2rem,6vh,4rem) clamp(6rem,12vh,9rem); }
-  .history__grid{ display:grid; grid-template-columns: 1fr; gap:0; }
-  .era{
-    display:grid; grid-template-columns: 9.5rem 1fr; gap: 1.75rem; padding-block: 2.5rem; border-top:1px solid var(--border);
-    opacity:0; transform:translateY(28px); transition: opacity .8s var(--ease-out), transform .8s var(--ease-out);
-  }
-  .era.is-visible{ opacity:1; transform:translateY(0); }
-  .era:last-child{ border-bottom:1px solid var(--border); }
-  .era__when{ font-family:var(--font-mono); font-size:.85rem; color:var(--green-lt); padding-top:.2rem; }
-  .era__body h3{ font-family:var(--font-serif); font-weight:500; font-size:clamp(1.3rem,2vw,1.8rem); color:var(--text); margin-bottom:.65rem; }
-  .era__body p{ font-family:var(--font-serif); font-size:1.08rem; line-height:1.8; color:var(--text-dim); max-width:60ch; }
-  .era__src{ display:inline-block; margin-top:.7rem; font-family:var(--font-mono); font-size:.68rem; color:var(--text-faint); }
-  @media (max-width: 640px){ .era{ grid-template-columns:1fr; gap:.5rem; } }
+  .contact{ padding-block: clamp(2rem,6vh,4rem) clamp(6rem,12vh,9rem); }
+  .contact-card{ border-radius:20px; padding:0; overflow:hidden; margin-bottom:2.5rem; }
+  .contact-fact{ display:flex; justify-content:space-between; gap:1.5rem; padding:1.15rem 1.4rem; border-top:1px solid var(--border); }
+  .contact-fact:first-child{ border-top:none; }
+  .contact-fact dt{ font-family:var(--font-mono); font-size:.68rem; letter-spacing:.1em; text-transform:uppercase; color:var(--text-faint); flex-shrink:0; padding-top:.1rem; }
+  .contact-fact dd{ margin:0; color:var(--text); font-size:.95rem; text-align:right; line-height:1.55; }
+  .contact-note{ font-size:.82rem; color:var(--text-faint); line-height:1.6; margin-top:1rem; max-width:56ch; }
 </style>
 </head>
 <body>
@@ -43,7 +35,7 @@
   </a>
   <div class="nav__links">
     <a href="index.html">Overview</a>
-    <a href="history.html" class="is-current">History</a>
+    <a href="history.html">History</a>
     <a href="governance.html">Governance</a>
     <a href="local-government.html">Local Government</a>
     <a href="news.html">News</a>
@@ -54,7 +46,7 @@
         <a href="programs.html">Programs</a>
         <a href="e-services.html">e-Services</a>
         <a href="document-library.html">Document Library</a>
-        <a href="contact.html">Contact</a>
+        <a href="contact.html" class="is-current">Contact</a>
       </div>
     </div>
   </div>
@@ -72,13 +64,13 @@
   <div class="nav-sheet__panel">
     <a href="index.html" class="nav-sheet__link">Overview</a>
 
-    <div class="nav-sheet__cat is-expanded">
-      <button class="nav-sheet__cat-btn" type="button" aria-expanded="true">
+    <div class="nav-sheet__cat">
+      <button class="nav-sheet__cat-btn" type="button" aria-expanded="false">
         <span>Government</span>
         <svg class="nav-sheet__chev" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M6 8l4 4 4-4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </button>
       <div class="nav-sheet__sub">
-        <a href="history.html" class="nav-sheet__link nav-sheet__link--sub is-current">Our History</a>
+        <a href="history.html" class="nav-sheet__link nav-sheet__link--sub">Our History</a>
         <a href="governance.html" class="nav-sheet__link nav-sheet__link--sub">Governance</a>
         <a href="governance.html#governor" class="nav-sheet__link nav-sheet__link--sub nav-sheet__link--sub2">Current Governor</a>
         <a href="governance.html#past-governors" class="nav-sheet__link nav-sheet__link--sub nav-sheet__link--sub2">Past Governors</a>
@@ -142,7 +134,7 @@
     </div>
 
     <a href="document-library.html" class="nav-sheet__link">Document Library</a>
-    <a href="contact.html" class="nav-sheet__link">Contact</a>
+    <a href="contact.html" class="nav-sheet__link is-current">Contact</a>
 
     <a href="#ask" class="nav-sheet__link nav-sheet__link--ask">Ask Adamawa</a>
     <button class="nav-sheet__theme" id="theme-toggle-sheet">
@@ -154,13 +146,30 @@
 
 <main>
 <section class="page-hero wide">
-  <p class="label">From Fombina to the Federal Republic</p>
-  <h1 class="d-xl">History.</h1>
-  <p class="body-l">Two centuries of one place, told as a line: a Fulani jihad state, a British and German colonial partition, a post-independence region, and finally a Nigerian state carved out on its own terms in 1991.</p>
+  <p class="label">Get in touch</p>
+  <h1 class="d-xl">Contact.</h1>
+  <p class="body-l">Details below are drawn from the official government site — for anything time-sensitive, use the primary contact page linked at the bottom rather than relying solely on this copy.</p>
 </section>
 
-<section class="history section-pad wide" id="history">
-  <div class="history__grid" id="history-list"><!-- ERA_CARDS_PLACEHOLDER --></div>
+<section class="contact wide">
+  <div class="contact-card card-surface">
+    <dl style="margin:0;">
+      <div class="contact-fact"><dt>Address</dt><dd>Adamawa State Government House, Dougirei, Yola, Adamawa State, Nigeria</dd></div>
+      <div class="contact-fact"><dt>Alt. address</dt><dd>No. 245 Dougirei, Jimeta, Yola, Adamawa State</dd></div>
+      <div class="contact-fact"><dt>Email</dt><dd><a href="mailto:info@adamawastate.gov.ng" style="color:inherit;">info@adamawastate.gov.ng</a></dd></div>
+      <div class="contact-fact"><dt>Hours</dt><dd>Mon – Fri, 8:00am – 6:00pm</dd></div>
+    </dl>
+  </div>
+  <p class="contact-note">A phone number is listed on the official site but wasn't fully legible when this page was built — use the contact page below to get the current number directly rather than trusting a possibly-truncated digit string here.</p>
+
+  <div class="link-group" style="margin-top:2.5rem;">
+    <div class="link-list">
+      <a class="link-item" href="https://adamawastate.gov.ng/contact/" target="_blank" rel="noopener">
+        <span><span class="link-item__name">Official contact page</span><span class="link-item__note">adamawastate.gov.ng — full, current contact details and a message form.</span></span>
+        <span class="link-item__go"><svg viewBox="0 0 20 20" fill="none"><path d="M7 13 13 7M8 7h5v5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      </a>
+    </div>
+  </div>
 </section>
 
 <section class="ask section-pad wide" id="ask">
@@ -171,10 +180,10 @@
       <h3 class="d-m">A guide to the whole state.</h3>
       <p class="body">Every figure on this site — the history, the local governments, the minerals, the governor's record — is searchable here. Ask a question in plain language.</p>
       <div class="ask-suggest" id="ask-suggest">
-        <button data-q="When was Adamawa State created?">When was Adamawa State created?</button>
-        <button data-q="Who was Lamido Fombina?">Who was Modibbo Adama?</button>
-        <button data-q="What happened to Fombina in 1901?">What happened to Fombina in 1901–1903?</button>
         <button data-q="What has Governor Fintiri done in office?">What has Governor Fintiri done in office?</button>
+        <button data-q="When was Adamawa State created?">When was Adamawa State created?</button>
+        <button data-q="What minerals does Adamawa have?">What minerals does Adamawa have?</button>
+        <button data-q="What LGAs are in Adamawa North?">What LGAs are in Adamawa North?</button>
       </div>
     </div>
     <div class="ask-panel">
@@ -192,7 +201,7 @@
 
 <footer>
   <div class="footer-grid">
-    <p class="footer-note">Built as a concept demonstration of Adamawa State's digital presence. Historical, demographic and biographical figures are drawn from public sources cited below; verify against primary government records before official use.</p>
+    <p class="footer-note">Built as a concept demonstration of Adamawa State's digital presence. Contact details are drawn from the official site cited below; verify before official use.</p>
     <div class="footer-sources" id="footer-sources"><!-- SOURCES_PLACEHOLDER --></div>
   </div>
 </footer>
@@ -204,19 +213,5 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
 <script src="assets/data.js"></script>
 <script src="assets/base.js"></script>
-<script>
-  window.__adamawaPageInit = function(DATA){
-    var host = document.getElementById('history-list');
-    if (host && DATA.eras && DATA.eras.length){
-      host.innerHTML = DATA.eras.map(function(e){
-        return '<article class="era reveal"><div class="era__when num">' + e.when + '</div>' +
-          '<div class="era__body"><h3>' + e.title + '</h3><p>' + e.body + '</p>' +
-          (e.source ? '<span class="era__src">Source: ' + e.source + '</span>' : '') +
-          '</div></article>';
-      }).join('');
-    }
-    window.__reobserveReveals();
-  };
-</script>
 </body>
 </html>
