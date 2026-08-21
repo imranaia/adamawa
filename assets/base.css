@@ -268,30 +268,33 @@ hr.rule{ border:none; border-top:1px solid var(--border); margin:0; }
 .nav__burger{ width:36px; height:36px; border-radius:999px; border:1px solid var(--border-strong); background:transparent; color:var(--text); align-items:center; justify-content:center; cursor:pointer; }
 
 /* the sheet itself is only the dim backdrop — full viewport, but the
-   actual menu lives in the docked __panel child so it reads as a proper
-   sidebar instead of a full-screen takeover */
+   actual menu lives in the floating __panel child, docked top-right below
+   the nav pill rather than a full-height, full-opacity takeover */
 .nav-sheet{
   position:fixed; inset:0; z-index:39;
-  background: color-mix(in srgb, var(--bg-deep) 55%, transparent);
-  backdrop-filter: blur(6px);
-  display:flex; justify-content:flex-end;
-  opacity:0; pointer-events:none; transition:opacity .35s var(--ease-out);
+  background: color-mix(in srgb, var(--bg-deep) 40%, transparent);
+  backdrop-filter: blur(4px);
+  display:flex; align-items:flex-start; justify-content:flex-end;
+  padding: 5.75rem 1rem 1rem;
+  opacity:0; pointer-events:none; transition:opacity .3s var(--ease-out);
 }
 .nav-sheet.is-open{ opacity:1; pointer-events:auto; }
 
 .nav-sheet__panel{
-  width:min(264px, 76vw); height:100%; max-height:100dvh;
+  width:min(264px, 76vw); max-height:min(64vh, 480px);
   display:flex; flex-direction:column; gap:.1rem;
   overflow-y:auto; overscroll-behavior:contain;
-  padding: 6rem 1rem 1.5rem;
-  background: color-mix(in srgb, var(--bg-deep) 96%, transparent);
-  backdrop-filter: blur(24px);
-  border-left:1px solid var(--border-strong);
-  box-shadow: -24px 0 60px -20px rgba(0,0,0,.55);
-  transform: translateX(16px);
-  transition: transform .4s var(--ease-out);
+  padding: 1.1rem .9rem;
+  background: color-mix(in srgb, var(--bg-deep) 74%, transparent);
+  backdrop-filter: blur(20px) saturate(140%);
+  border:1px solid var(--border-strong);
+  border-radius: 20px;
+  box-shadow: 0 24px 50px -16px rgba(0,0,0,.5);
+  transform: translateY(-10px) scale(.97);
+  opacity:0;
+  transition: transform .35s var(--ease-out), opacity .3s var(--ease-out);
 }
-.nav-sheet.is-open .nav-sheet__panel{ transform:translateX(0); }
+.nav-sheet.is-open .nav-sheet__panel{ transform:translateY(0) scale(1); opacity:1; }
 
 .nav-sheet__link{
   font-family:var(--font-display); font-size:.88rem; font-weight:600; text-decoration:none;
@@ -317,8 +320,6 @@ hr.rule{ border:none; border-top:1px solid var(--border); margin:0; }
 .nav-sheet__cat.is-expanded .nav-sheet__chev{ transform:rotate(180deg); }
 .nav-sheet__sub{ display:flex; flex-direction:column; max-height:0; overflow:hidden; transition:max-height .35s var(--ease-out); }
 .nav-sheet__cat.is-expanded .nav-sheet__sub{ max-height:14rem; }
-
-.nav-sheet__theme{ margin-top:auto; }
 
 /* ---------- footer ---------- */
 footer{ position:relative; z-index:1; padding: 3.5rem var(--gutter) 3rem; border-top:1px solid var(--border); background:var(--bg); }
