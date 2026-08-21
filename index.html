@@ -13,7 +13,7 @@
 <link rel="stylesheet" href="assets/base.css" />
 <style>
   /* ---------- hero ---------- */
-  .hero{ min-height: 100dvh; display:flex; flex-direction:column; justify-content:flex-end; padding-bottom: clamp(2.5rem, 7vh, 5rem); }
+  .hero{ min-height: 100dvh; display:flex; flex-direction:column; justify-content:flex-end; padding-top: clamp(7rem,20vh,9rem); padding-bottom: clamp(2.5rem, 7vh, 5rem); }
   .hero__eyebrow{ display:inline-flex; align-items:center; gap:.5rem; width:fit-content; margin-bottom:1.1rem; padding:.4rem .8rem .4rem .55rem; border-radius:999px; border:1px solid var(--border-strong); background:color-mix(in srgb, var(--bg-deep) 55%, transparent); backdrop-filter: blur(8px); }
   .hero__eyebrow .dot{ width:7px; height:7px; border-radius:50%; background:var(--green-lt); box-shadow:0 0 10px 2px var(--green-lt); }
   .hero h1{ color:var(--text); }
@@ -23,6 +23,14 @@
   .hero__meta .stat{ display:flex; flex-direction:column; gap:.3rem; }
   .hero__meta dt{ font-family:var(--font-mono); font-size:.68rem; letter-spacing:.14em; text-transform:uppercase; color:var(--text-faint); }
   .hero__meta dd{ margin:0; font-family:var(--font-display); font-size:1.35rem; font-weight:600; color:var(--text); }
+  /* the display clamp's floor (2.75rem) still reads huge once "The state
+     between / the mountains and the river." wraps to 3-4 lines on a phone —
+     scale it down further so the heading doesn't crowd out the eyebrow
+     pill and stats below it */
+  @media (max-width:640px){
+    .hero{ padding-top: clamp(6.5rem,18vh,8rem); }
+    .hero h1{ font-size:clamp(2rem, 9vw, 2.75rem); line-height:1.08; }
+  }
 
   .scrolldown{ position:absolute; right: var(--gutter); bottom: 2rem; display:flex; flex-direction:column; align-items:center; gap:.6rem; color:var(--text-faint); writing-mode:vertical-rl; }
   .scrolldown span{ font-family:var(--font-mono); font-size:.65rem; letter-spacing:.16em; text-transform:uppercase; }
