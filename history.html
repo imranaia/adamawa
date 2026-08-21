@@ -59,16 +59,51 @@
 </nav>
 
 <div class="nav-sheet" id="nav-sheet">
-  <a href="index.html">Overview</a>
-  <a href="history.html">History</a>
-  <a href="governance.html">Governance</a>
-  <a href="local-government.html">Local Government</a>
-  <a href="news.html">News</a>
-  <a href="#ask">Ask Adamawa</a>
-  <button class="nav-sheet__theme" id="theme-toggle-sheet">
-    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="4.2" stroke="currentColor" stroke-width="1.6"/><path d="M12 2.5v2.4M12 19.1v2.4M4.2 4.2l1.7 1.7M18.1 18.1l1.7 1.7M2.5 12h2.4M19.1 12h2.4M4.2 19.8l1.7-1.7M18.1 5.9l1.7-1.7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
-    <span class="lbl">Light mode</span>
-  </button>
+  <div class="nav-sheet__panel">
+    <a href="index.html" class="nav-sheet__link">Overview</a>
+
+    <div class="nav-sheet__cat is-expanded">
+      <button class="nav-sheet__cat-btn" type="button" aria-expanded="true">
+        <span>Government</span>
+        <svg class="nav-sheet__chev" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M6 8l4 4 4-4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="nav-sheet__sub">
+        <a href="history.html" class="nav-sheet__link nav-sheet__link--sub is-current">Our History</a>
+        <a href="governance.html" class="nav-sheet__link nav-sheet__link--sub">Governance</a>
+        <a href="governance.html#governor" class="nav-sheet__link nav-sheet__link--sub nav-sheet__link--sub2">Current Governor</a>
+        <a href="governance.html#past-governors" class="nav-sheet__link nav-sheet__link--sub nav-sheet__link--sub2">Past Governors</a>
+      </div>
+    </div>
+
+    <div class="nav-sheet__cat">
+      <button class="nav-sheet__cat-btn" type="button" aria-expanded="false">
+        <span>Local Government</span>
+        <svg class="nav-sheet__chev" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M6 8l4 4 4-4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="nav-sheet__sub">
+        <a href="local-government.html" class="nav-sheet__link nav-sheet__link--sub">All 21 LGAs</a>
+        <a href="local-government.html?zone=north" class="nav-sheet__link nav-sheet__link--sub nav-sheet__link--sub2">Adamawa North</a>
+        <a href="local-government.html?zone=central" class="nav-sheet__link nav-sheet__link--sub nav-sheet__link--sub2">Adamawa Central</a>
+        <a href="local-government.html?zone=south" class="nav-sheet__link nav-sheet__link--sub nav-sheet__link--sub2">Adamawa South</a>
+      </div>
+    </div>
+
+    <div class="nav-sheet__cat">
+      <button class="nav-sheet__cat-btn" type="button" aria-expanded="false">
+        <span>Media</span>
+        <svg class="nav-sheet__chev" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M6 8l4 4 4-4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="nav-sheet__sub">
+        <a href="news.html" class="nav-sheet__link nav-sheet__link--sub">News</a>
+      </div>
+    </div>
+
+    <a href="#ask" class="nav-sheet__link nav-sheet__link--ask">Ask Adamawa</a>
+    <button class="nav-sheet__theme" id="theme-toggle-sheet">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="4.2" stroke="currentColor" stroke-width="1.6"/><path d="M12 2.5v2.4M12 19.1v2.4M4.2 4.2l1.7 1.7M18.1 18.1l1.7 1.7M2.5 12h2.4M19.1 12h2.4M4.2 19.8l1.7-1.7M18.1 5.9l1.7-1.7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      <span class="lbl">Light mode</span>
+    </button>
+  </div>
 </div>
 
 <main>

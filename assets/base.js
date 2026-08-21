@@ -61,6 +61,18 @@
       burger.setAttribute('aria-expanded', open ? 'true' : 'false');
     });
     sheet.querySelectorAll('a').forEach(function(a){ a.addEventListener('click', closeSheet); });
+    /* clicking the dimmed backdrop (not the docked panel itself) closes it */
+    sheet.addEventListener('click', function(e){ if (e.target === sheet) closeSheet(); });
+    document.addEventListener('keydown', function(e){ if (e.key === 'Escape') closeSheet(); });
+
+    /* category accordions — expand/collapse, don't close the sheet */
+    sheet.querySelectorAll('.nav-sheet__cat-btn').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var cat = btn.closest('.nav-sheet__cat');
+        var expanded = cat.classList.toggle('is-expanded');
+        btn.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+      });
+    });
   }
 
   /* ---------------- scroll reveals ---------------- */
