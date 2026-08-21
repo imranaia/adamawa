@@ -233,15 +233,18 @@
       photo: 'https://upload.wikimedia.org/wikipedia/commons/8/82/Mandara_Mountains_from_Yola.jpg' },
     { name: 'Kiri Dam', lga: 'Shelleng', lat: 9.6167, lng: 12.0833, note: 'Completed in 1982 on the Gongola River in Shelleng LGA — a 615 million m³ reservoir used for power, irrigation and fishing.', palette: ['#123d21', '#2f8f52'],
       photo: 'https://upload.wikimedia.org/wikipedia/commons/c/c4/Kiri_Reservoir.jpg' },
-    { name: 'Njuwa Lake', lga: 'Yola South', lat: 9.25, lng: 12.55, note: 'Yola’s lakeside home to the annual Njuwa fishing festival, held each March through May.', palette: ['#2f8f52', '#74d492'] },
+    { name: 'Njuwa Lake', lga: 'Yola South', lat: 9.25, lng: 12.55, note: 'Yola’s lakeside home to the annual Njuwa fishing festival, held each March through May.', palette: ['#2f8f52', '#74d492'],
+      photo: 'pics/Njuwa%20LakeNjuwa%20Lake.jpeg' },
     { name: 'Three Sisters Rock', lga: 'Song', lat: 9.8234, lng: 12.6131, note: 'A striking triple rock formation about an hour’s drive from Yola; the tallest of the three peaks is climbable.', palette: ['#74d492', '#123d21'], source: 'Wikidata',
       photo: 'https://upload.wikimedia.org/wikipedia/commons/7/7b/The_three_sisters_rock_song_Local_Government_Area_Song%2C_Adamawa_State_Nigeria.jpeg' },
     { name: 'Koma Hills', lga: 'Jada', lat: 8.774, lng: 12.616, note: 'A highland stretch of the Alantika Mountains on the Cameroon border, home to the culturally distinct Koma people — publicly "discovered" by an NYSC corps member in 1986.', palette: ['#2f8f52', '#0c2a17'], source: 'Wikipedia — Koma people',
       photo: 'https://upload.wikimedia.org/wikipedia/commons/2/24/Photo_A_village_of_the_Koma_people_in_the_Atlantika_Mountains_1958_-_Touring_Club_Italiano_BBH_119.jpg' },
     { name: 'Lamido of Adamawa’s Palace', lga: 'Yola South', lat: 9.230, lng: 12.460, note: 'Seat of the traditional Lamido of Adamawa in central Yola; the current Sudano-Sahelian mud-brick structure was built in the early 20th century by Lamido Zubairu, and now also houses a museum of emirate history.', palette: ['#74d492', '#2f8f52'],
       photo: 'https://upload.wikimedia.org/wikipedia/commons/f/f7/Lamido_Palace.jpg' },
-    { name: 'Yadim Waterfall', lga: 'Fufore', lat: null, lng: null, note: 'Also known locally as Sella Negis — one of the state’s most-visited waterfalls, in Yadim village. Sources use the two names somewhat interchangeably; precise coordinates for the falls themselves are not published, only the general Fufore LGA location.', palette: ['#2f8f52', '#74d492'] },
-    { name: 'Sassa Waterfall', lga: 'Toungo', lat: null, lng: null, note: 'A waterfall in Sassa village, Toungo LGA — documented as a local attraction, though no independently verifiable precise coordinates for the site were found.', palette: ['#123d21', '#74d492'] }
+    { name: 'Yadim Waterfall', lga: 'Fufore', lat: null, lng: null, note: 'Also known locally as Sella Negis — one of the state’s most-visited waterfalls, in Yadim village. Sources use the two names somewhat interchangeably; precise coordinates for the falls themselves are not published, only the general Fufore LGA location.', palette: ['#2f8f52', '#74d492'],
+      photo: 'pics/Yadim%20Waterfall.jpeg' },
+    { name: 'Sassa Waterfall', lga: 'Toungo', lat: null, lng: null, note: 'A waterfall in Sassa village, Toungo LGA — documented as a local attraction, though no independently verifiable precise coordinates for the site were found.', palette: ['#123d21', '#74d492'],
+      photo: 'pics/Sassa%20Waterfall.jpeg' }
   ];
 
   DATA.sources = [
